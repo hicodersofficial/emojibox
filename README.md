@@ -9,7 +9,7 @@ docker pull ghcr.io/hicodersofficial/emojibox
 ```
 
 ```
-docker run -d -p 9000:9000 --name emojibox emojibox
+docker run -d -p 9000:9000 --name emojibox ghcr.io/hicodersofficial/emojibox
 ```
 
 ```
