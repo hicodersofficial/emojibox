@@ -1,8 +1,11 @@
 import express from "express";
 const app = express();
+app.enable("trust proxy");
+
 const PORT = process.env.PORT || 9000;
 
 import emojis from "./emojis.js";
+const logger = console;
 
 function getRandomEmoji() {
   const index = Math.floor(Math.random() * emojis.length);
@@ -12,6 +15,18 @@ function getRandomEmoji() {
     index,
   };
 }
+app.use((req, res, next) => {
+  const startTime = new Date();
+  req.on("end", async () => {
+    const endTime = new Date();
+    logger.info(
+      `${new Date().toISOString()} GET[${res.statusCode}] [${
+        endTime - startTime
+      }ms] [${req.ip}] ${req.url}`
+    );
+  });
+  next();
+});
 
 app.get("/", (req, res) => {
   res.json({
